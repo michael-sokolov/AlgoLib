@@ -52,39 +52,23 @@ void dfs1(int v, int d){
         if(deep[to]==-1) dfs1(to, d+1);
     }
 }
-set<pair<int,int> > s;
+
 vector<int> u;
 vector<int> pars;
 vector<int> ans;
 void dfs2(int v, int d){
     u[v]=1;
     pars.pb(v);
-    set<pair<int,int> >::iterator cur=s.lower_bound(mp(d,-1));
-    while(cur!=s.end()){
-        pair<int,int> c=*cur;
-        if(c.first==d){
-            if(ans[c.second]==0)ans[c.second]=v+1;
-            ++cur;
-            s.erase(c);
-        }else break;
-    }
     for(int i=0;i<que[v].size();++i){
         if(dists[que[v][i]]<=d){
             if(ans[que[v][i]]==0) ans[que[v][i]]=pars[d-dists[que[v][i]]]+1;
-        }else
-        s.insert(mp(dists[que[v][i]] + d, que[v][i]));
+        }
     }
-
     for(int i=0;i<g[v].size();++i){
         int to=g[v][i];
         if(!u[to]){
             dfs2(to, d+1);
         }
-    }
-
-
-    for(int i=0;i<que[v].size();++i){
-        s.erase(mp(dists[que[v][i]] + d, que[v][i]));
     }
     pars.pop_back();
 }
@@ -141,3 +125,4 @@ int main(){
 
     return 0;
 }
+
