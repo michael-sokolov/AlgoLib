@@ -46,12 +46,14 @@ struct edge{
     int a, b;
     ll cost, cap;
     ll flow;
+    ll olc;
     edge(int aa, int bb, int cc, int ca){
         a=aa;
         b=bb;
         cost=cc;
         cap=ca;
         flow=0;
+        olc=cc;
     }
 };
 vector<edge> edges;
@@ -147,6 +149,12 @@ int main(){
             cur=edges[to].a;
         }
         res+=flow*dist[t];
+        for(int i=0;i<pot.size();++i){
+            pot[i]+=dist[i];
+        }
+        for(int i=0;i<edges.size();++i){
+            edges[i].cost=edges[i].olc+pot[edges[i].a]-pot[edges[i].b];
+        }
     }
     cout<<-res<<endl;
 
